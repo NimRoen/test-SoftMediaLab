@@ -1,0 +1,14 @@
+{
+  "monthlySalary": "Оклад за месяц",
+  "monthlySalaryMinimal": "МРОТ",
+  "dailySalary": "Оплата за день",
+  "hourlySalary": "Оплата в час",
+  "withoutIRPF": "Указать с НДФЛ",
+  "withIRPF": "с НДФЛ",
+  "summary": "Cумма",
+  "clearIncomingValue": "сотрудник будет получать на руки",
+  "IRPFValue": "НДФЛ, 13% от оклада",
+  "monthlyIncomingValue": "за сотрудника в месяц",
+  "currency": "₽",
+  "salaryMinimalTooltip": "МРОТ – минимальный размер оплаты труда. Разный для разных регионов."
+}
