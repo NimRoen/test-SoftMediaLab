@@ -1,6 +1,8 @@
 import React from 'react';
 
 import RadioInput, { RadioInputProps } from '../forms/RadioInput';
+
+import { FROM_SALARY_TYPE } from './constants';
 import { SalaryType } from './SalaryRadioList';
 
 type Props = {
@@ -10,7 +12,7 @@ type Props = {
 };
 
 const SalaryRadioInput: React.FC<Props & Omit<RadioInputProps, 'name'>> = props => {
-  return <RadioInput {...props} name="salaryType" />;
+  return <RadioInput name={FROM_SALARY_TYPE} {...props} />;
 };
 
 export default SalaryRadioInput;

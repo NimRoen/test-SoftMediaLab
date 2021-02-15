@@ -3,12 +3,14 @@
   "monthlySalaryMinimal": "МРОТ",
   "dailySalary": "Оплата за день",
   "hourlySalary": "Оплата в час",
-  "withoutIRPF": "Указать с НДФЛ",
-  "withIRPF": "с НДФЛ",
+  "withoutIRPF": "без НДФЛ",
+  "withIRPF": "Указать с НДФЛ",
   "summary": "Cумма",
-  "clearIncomingValue": "сотрудник будет получать на руки",
-  "IRPFValue": "НДФЛ, 13% от оклада",
-  "monthlyIncomingValue": "за сотрудника в месяц",
+  "salary": "сотрудник будет получать на руки",
+  "irpf": "НДФЛ, 13% от оклада",
+  "salaryTotal": "за сотрудника в месяц",
   "currency": "₽",
-  "salaryMinimalTooltip": "МРОТ – минимальный размер оплаты труда. Разный для разных регионов."
+  "salaryMinimalTooltip": "МРОТ – минимальный размер оплаты труда. Разный для разных регионов.",
+  "perDay": "в день",
+  "perHour": "в час"
 }

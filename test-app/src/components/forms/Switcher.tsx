@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Field } from 'redux-form';
 
 type Props = {
   name: string;
-  isOn?: boolean;
-  onClick?: () => void;
+  checked?: boolean;
 };
 
-const Switcher: React.FC<Props> = ({ name, isOn, onClick }) => {
-  const [on, setOn] = useState(isOn || false);
+const Switcher: React.FC<Props> = props => {
+  const { name } = props;
 
   return (
-    <label htmlFor={name} onClick={() => {
-      setOn(!on);
-
-      if(onClick) {
-        onClick();
-      }
-    }}>
+    <label htmlFor={name}>
       <div className="form-checkbox"></div>
-      <Field name={name} component="input" type="checkbox" checked={on} />
+      <Field component="input" type="checkbox" {...props} />
     </label>
   );
 };

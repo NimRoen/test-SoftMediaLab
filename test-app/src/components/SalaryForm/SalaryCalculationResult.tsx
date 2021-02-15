@@ -1,62 +1,82 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import styled from 'styled-components';
 
-import json from '../../data/forms.json';
 import { FORM_SALARY_CALCULATOR } from '../constants';
+
+import { numberFormat } from '../../lib/string';
+import json from '../../data/forms.json';
+
+import { FORM_SALARY_VALUE, FROM_SALARY_TYPE, FROM_SALARY_WITHOUT_IRPF } from './constants';
 import { SalaryType, salaryTypes } from './SalaryRadioList';
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin-top: 20px;
+  padding: 22px;
+  background-color: ${p => p.theme.colors.yellow};
+`;
 
-const ResultInfo = styled.p``;
+const ResultInfo = styled.p`
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
 
-const ResultValue = styled.span``;
+const ResultValue = styled.span`
+  font-weight: 900;
+`;
 
 const ResultDescription = styled.span``;
 
 const resultKeys = {
-  CLEAR_INCOMING: 'clearIncomingValue',
-  IPRF_VALUE: 'IRPFValue',
-  TOTALLY_INCOMING: 'monthlyIncomingValue',
+  salary: 'salary',
+  irpf: 'irpf',
+  salaryTotal: 'salaryTotal',
 } as const;
 
-type KeysType = typeof resultKeys[keyof typeof resultKeys];
+type KeysType = keyof typeof resultKeys;
 
 type StateProps = { [key in KeysType]: number };
 
 type Props = {
   salaryType: SalaryType;
   salaryValue: string;
-  salaryWithIRPF: boolean;
+  salaryWithoutIRPF: boolean;
 };
 
 class SalaryCalculationResult extends Component<Props, StateProps> {
   state = {
-    [resultKeys.CLEAR_INCOMING]: 0,
-    [resultKeys.IPRF_VALUE]: 0,
-    [resultKeys.TOTALLY_INCOMING]: 0,
+    salary: 0,
+    irpf: 0,
+    salaryTotal: 0,
   };
 
   isShowResult() {
-    const { salaryType } = this.props;
+    const { salaryType, salaryValue } = this.props;
+    const salary = !!salaryValue ? Number(salaryValue.replace(/\D/g, '')) : 0;
+
+    if (salaryType === salaryTypes.MONTHLY && salary > 0) {
+      return true;
+    }
   
-    return !!salaryType ? salaryType === salaryTypes.MONTHLY : true;
+    return false;
   }
 
   calculateResult() {
-    const { salaryValue, salaryWithIRPF } = this.props;
+    const { salaryValue, salaryWithoutIRPF } = this.props;
     const newState = this.state;
 
-    const salary = Number(salaryValue);
-    const irpf = salary * 0.13;
-    
-    // переменная введена, потому что не успел разобраться как в redux-form передаются дефолтные значения
-    const useIRPF = salaryWithIRPF === undefined ? true : salaryWithIRPF;
-
-    newState[resultKeys.CLEAR_INCOMING] = salary - (useIRPF ? irpf : 0);
-    newState[resultKeys.TOTALLY_INCOMING] = salary + (useIRPF ? 0 : irpf);
-    newState[resultKeys.IPRF_VALUE] = irpf;
+    if (salaryWithoutIRPF) {
+      newState.salary = Number(salaryValue);
+      newState.salaryTotal = newState.salary / 0.87;
+      newState.irpf = newState.salaryTotal - newState.salary;
+    }
+    else {
+      newState.salaryTotal = Number(salaryValue);
+      newState.irpf = newState.salaryTotal * 0.13;
+      newState.salary = newState.salaryTotal - newState.irpf;
+    }
 
     this.setState(newState);
   }
@@ -77,7 +97,7 @@ class SalaryCalculationResult extends Component<Props, StateProps> {
     return (
       <Container>
         {keys.map(key => {
-          const resultValue = this.state[key];
+          const resultValue = Math.round(this.state[key]);
 
           if (!!!resultValue) {
             return null;
@@ -85,7 +105,7 @@ class SalaryCalculationResult extends Component<Props, StateProps> {
 
           return (
             <ResultInfo key={`salaryResultInfo-${key}`}>
-              <ResultValue>{resultValue} {json.currency}</ResultValue>
+              <ResultValue>{numberFormat(resultValue.toString())} {json.currency} </ResultValue>
               <ResultDescription>{json[key]}</ResultDescription>
             </ResultInfo>
           );
@@ -97,14 +117,14 @@ class SalaryCalculationResult extends Component<Props, StateProps> {
 
 const selector = formValueSelector(FORM_SALARY_CALCULATOR);
 
-export default connect(state => {
-  const salaryType = selector(state, 'salaryType');
-  const salaryValue = selector(state, 'salaryValue');
-  const salaryWithIRPF = selector(state, 'salaryWithIRPF');
+export default connect<Props>(state => {
+  const salaryType = selector(state, FROM_SALARY_TYPE);
+  const salaryValue = selector(state, FORM_SALARY_VALUE);
+  const salaryWithoutIRPF = selector(state, FROM_SALARY_WITHOUT_IRPF);
 
   return {
     salaryType,
     salaryValue,
-    salaryWithIRPF,
+    salaryWithoutIRPF,
   }
 })(SalaryCalculationResult);

@@ -15,7 +15,7 @@ export type SalaryType = typeof salaryTypes[keyof typeof salaryTypes];
 
 const salaryFormOptions = [
   { value: salaryTypes.MONTHLY },
-  { value: salaryTypes.MONTHLY_MINIMAL, tooltip: 'salaryMinimalTooltip' },
+  { value: salaryTypes.MONTHLY_MINIMAL, tooltip: json.salaryMinimalTooltip },
   { value: salaryTypes.DAILY },
   { value: salaryTypes.HOURLY },
 ] as { value: SalaryType, toolip?: string }[];
@@ -23,10 +23,14 @@ const salaryFormOptions = [
 const SalaryRadioList: React.FC = () => {
   return (
     <fieldset className="form-radioList">
-      {salaryFormOptions.map((salaryFormOption, index) => {
+      {salaryFormOptions.map(salaryFormOption => {
         const { value } = salaryFormOption;
 
-        return <SalaryRadioInput key={`salaryFormOption-${index}`} {...salaryFormOption} label={json[value]} />
+        return <SalaryRadioInput
+          key={`salaryFormOption-${salaryFormOption.value}`}
+          label={json[value]}
+          {...salaryFormOption}
+        />
       })}
     </fieldset>
   );

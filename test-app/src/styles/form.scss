@@ -1,0 +1,194 @@
+$whiteColor: #ffffff;
+$blackColor: #000000;
+$mainColor: #000000;
+$disabledColor: #888888;
+$actionColor: #ffa500;
+$noteColor: #fff5bb;
+$tooltipColor: #4552c4;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700;900&display=swap');
+
+form {
+  margin: 20px;
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 16px;
+  cursor: default;
+
+  label {
+    margin: 0 !important;
+  }
+  
+  & input[type="text"] {
+    height: 30px;
+    padding: 0 15px;
+    font-weight: 900;
+    border: 1px solid $disabledColor;
+    border-radius: 15px;
+    outline: none;
+  }
+
+  & input[type="checkbox"] {
+    position: relative;
+    width: 0px;
+    height: 0px;
+    margin: 12px 22px;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: -22px;
+      width: 44px;
+      height: 24px;
+      background-color: $disabledColor;
+      border-radius: 12px;
+      transition: background-color ease .2s;
+    }
+
+    &:checked::before {
+      background-color: $actionColor;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -20px;
+      width: 20px;
+      height: 20px;
+      background-color: $whiteColor;
+      border-radius: 50%;
+      transition: left ease .2s;
+    }
+
+    &:checked::after {
+      left: 0px;
+    }
+  }
+}
+
+.form-caption {
+  margin-bottom: 10px;
+  color: $disabledColor;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.form-radioList {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-bottom: 10px;
+  font-weight: 700;
+
+  & .form-radio {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  & label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    cursor: pointer;
+
+    & input {
+      position: relative;
+      width: 0;
+      height: 0;
+      left: -16px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -9px;
+        left: -8px;
+        width: 16px;
+        height: 16px;
+        border: 1px solid $disabledColor;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      &:checked::after {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: -5px;
+        width: 10px;
+        height: 10px;
+        background-color: $blackColor;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.form-switcher {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+
+  & label {
+    margin: 0;
+    padding: 0;
+    font-size: 0px;
+  }
+}
+
+.form-inputField {
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  margin-bottom: 10px;
+}
+
+.form-preLabel {
+  margin-right: 5px;
+  font-weight: 700;
+}
+
+.form-postLabel {
+  margin-left: 5px;
+  font-weight: 700;
+}
+
+.form-tooltip {
+  position: relative;
+  display: flex;
+  margin: 0 8px;
+  width: 21px;
+  height: 21px;
+  border: 1px solid $disabledColor;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &::before {
+    content: 'i';
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding-right: 1px;
+    color: $disabledColor;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  &.showed::before {
+    content: '🗙';
+    font-size: 12px;
+  }
+}
+
+.disabled {
+  color: $disabledColor;
+}
